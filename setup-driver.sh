@@ -5,8 +5,8 @@ set -x
 # Preserve legacy main logfile location
 ln -s /local/logs/setup.log /local/setup/setup-driver.log
 
-ALLNODESCRIPTS="setup-ssh.sh setup-disk-space.sh"
-HEADNODESCRIPTS="setup-nfs-server.sh setup-nginx.sh setup-ssl.sh setup-kubespray.sh setup-kubernetes-extra.sh setup-end.sh"
+ALLNODESCRIPTS="setup-ssh.sh setup-disk-space.sh setup-applications.sh"
+HEADNODESCRIPTS="setup-nfs-server.sh setup-nginx.sh setup-ssl.sh setup-kubespray.sh setup-kubernetes-extra.sh setup-end.sh setup-linkerd.sh setup-dynamos.sh"
 WORKERNODESCRIPTS="setup-nfs-client.sh"
 
 export SRC=`dirname $0`
