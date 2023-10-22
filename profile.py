@@ -49,6 +49,11 @@ pc.defineParameter(
     [(0,"Any"),(1000000,"1Gb/s"),(10000000,"10Gb/s"),(25000000,"25Gb/s"),(40000000,"40Gb/s"),(100000000,"100Gb/s")],
     longDescription="A specific link speed to use for each link/LAN.  All experiment network interfaces will request this speed.")
 pc.defineParameter(
+    "buildDynamos","Build DYNAMOS containers",
+    portal.ParameterType.BOOLEAN,False,
+    advanced=True,
+    longDescription="If set to true, DYNAMOS will build the containers locally.")
+pc.defineParameter(
     "diskImage","Disk Image",
     portal.ParameterType.STRING,
     "urn:publicid:IDN+emulab.net+image+emulab-ops//UBUNTU22-64-STD",
