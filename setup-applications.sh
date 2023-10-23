@@ -5,9 +5,11 @@ GO_VERSION="go1.21.3.linux-amd64.tar.gz"
 # Grab our libs
 . "`dirname $0`/setup-lib.sh"
 
+
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y protobuf-compiler protoc-gen-go
+sudo usermod -aG docker $USER
 
 mkdir -p local-bin/
 
