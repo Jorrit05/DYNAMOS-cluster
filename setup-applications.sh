@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 GO_VERSION="go1.21.3.linux-amd64.tar.gz"
 
@@ -28,7 +28,7 @@ echo 'export PATH=/local/repository/local-bin/:/local/repository/local-bin/bin:/
 echo 'alias k="kubectl"' | sudo tee /etc/profile.d/aliases_for_all.sh
 
 echo "ECHO buildDynamos"
-echo $BUILDDYNAMOS
+echo $BUILD_DYNAMOS
 
 # To be refactored and made dynamic
 REPO=jorrit05
