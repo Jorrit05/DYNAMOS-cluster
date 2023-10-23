@@ -2,6 +2,9 @@
 
 GO_VERSION="go1.21.3.linux-amd64.tar.gz"
 
+# Grab our libs
+. "`dirname $0`/setup-lib.sh"
+
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y protobuf-compiler protoc-gen-go
@@ -41,7 +44,7 @@ for image in "${IMAGES[@]}"; do
 
     remote_image=$(echo "dynamos-$image" | sed 's/_/-/g')
 
-    docker pull $REPO/${remote_image}:$TAG
+    $SUDO docker pull $REPO/${remote_image}:$TAG
 done
 
 # (

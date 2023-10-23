@@ -3,6 +3,9 @@
 set -e
 set -o pipefail
 
+# Grab our libs
+. "`dirname $0`/setup-lib.sh"
+
 handle_error() {
     echo "Error occurred on line $1"
     exit 1
@@ -41,7 +44,7 @@ log "Generating RabbitMQ password..."
 rabbit_pw=$(openssl rand -base64 12)
 rabbit_definitions_file=${k8s_service_files}/definitions.json
 # Hash password
-hashed_pw=$(docker run --rm  rabbitmq:3-management rabbitmqctl hash_password $rabbit_pw)
+hashed_pw=$($SUDO docker run --rm  rabbitmq:3-management rabbitmqctl hash_password $rabbit_pw)
 actual_hash=$(echo "$hashed_pw" | cut -d $'\n' -f2)
 
 log "Replacing tokens..."
