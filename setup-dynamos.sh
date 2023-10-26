@@ -2,7 +2,6 @@
 
 set -e
 set -o pipefail
-
 # Grab our libs
 . "`dirname $0`/setup-lib.sh"
 
@@ -17,11 +16,17 @@ log() {
     echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1"
 }
 
+$SETUP="/local/setup"
+
+log "go to dir"
+cd $SETUP
+
 log "Cloning repository..."
 if ! git clone https://github.com/Jorrit05/DYNAMOS.git; then
     echo "Failed to clone the repository."
     exit 1
 fi
+
 
 log "Setting up paths..."
 dynamos_path="${PWD}/DYNAMOS"
