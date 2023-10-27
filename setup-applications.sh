@@ -1,7 +1,7 @@
 #!/bin/bash
 
 GO_VERSION="go1.21.3.linux-amd64.tar.gz"
-$SETUP="/local/setup"
+
 # Grab our libs
 . "`dirname $0`/setup-lib.sh"
 
@@ -11,25 +11,22 @@ sudo apt upgrade -y
 sudo apt install -y protobuf-compiler protoc-gen-go
 sudo usermod -aG docker $USER
 echo "USER: ${USER}"
-mkdir -p local-bin/
+echo "home: ${HOME}"
 
 # setup Linkerd CLI
-export INSTALLROOT="${SETUP}/local-bin"
-curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install | sh
-
-export PATH=${SETUP}/local-bin/:${SETUP}/local-bin/bin:/usr/local/go/bin:$(go env GOPATH)/bin:$PATH
+export INSTALLROOT="/usr/local"
+sudo curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install | sudo sh
 
 # Install Go
 curl -LO "https://go.dev/dl/${GO_VERSION}"  && sudo tar -C /usr/local/ -xzf ${GO_VERSION}
-export PATH=${SETUP}/local-bin/:${SETUP}/local-bin/bin:/usr/local/go/bin:$(go env GOPATH)/bin:$PATH
+export PATH=/usr/local/go/bin:$(go env GOPATH)/bin:/usr/local/bin:$PATH
 
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
 go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 
-export PATH=${SETUP}/local-bin/:${SETUP}/local-bin/bin:/usr/local/go/bin:$(go env GOPATH)/bin:$PATH
-echo "export PATH=${SETUP}/local-bin/:${SETUP}/local-bin/bin:/usr/local/go/bin:$(go env GOPATH)/bin:\$PATH" | sudo tee /etc/profile.d/path_for_all.sh
-echo 'export PATH=/local/repository/local-bin/:/local/repository/local-bin/bin:/usr/local/go/bin:$(go env GOPATH)/bin:$PATH' | sudo tee -a /root/.bashrc
+echo "export PATH=/usr/local/go/bin:$(go env GOPATH)/bin:/usr/local/bin:\$PATH" | sudo tee /etc/profile.d/path_for_all.sh
+echo 'export PATH=/usr/local/go/bin:$(go env GOPATH)/bin:/usr/local/bin:$PATH' | sudo tee -a /root/.bashrc
 echo 'alias k="kubectl"' | sudo tee /etc/profile.d/aliases_for_all.sh
 
 echo "ECHO buildDynamos"

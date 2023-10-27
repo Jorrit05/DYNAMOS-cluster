@@ -16,10 +16,10 @@ log() {
     echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1"
 }
 
-$SETUP="/local/setup"
+
 
 log "go to dir"
-cd $SETUP
+cd $HOME
 
 log "Cloning repository..."
 if ! git clone https://github.com/Jorrit05/DYNAMOS.git; then
