@@ -60,5 +60,16 @@ done
 # echo $?
 # echo "Finished making Python"
 # )
+#!/bin/bash
+
+# Check if the line already exists to avoid duplicates
+if ! grep -q "source <(kubectl completion bash)" ${HOME}/.bashrc; then
+    echo 'if type kubectl &>/dev/null; then' >> ${HOME}/.bashrc
+    echo '    source <(kubectl completion bash)' >> ${HOME}/.bashrc
+    echo 'fi' >> ${HOME}/.bashrc
+    echo "Added kubectl completion to ${HOME}/.bashrc"
+else
+    echo "kubectl completion already exists in ${HOME}/.bashrc"
+fi
 
 exit 0
