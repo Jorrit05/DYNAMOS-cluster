@@ -59,6 +59,14 @@ echo "Installing namespaces..."
 # Install namespaces
 helm upgrade -i -f ${namespace_chart}/values.yaml namespaces ${namespace_chart} --set secret.password=${rabbit_pw}
 
+echo "Preparing PVC"
+
+{
+    cd DYNAMOS/configuration
+    ./fill-rabbit-pvc.sh
+}
+
+
 #Install prometheus
 echo "Installing Prometheus..."
 
