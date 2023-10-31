@@ -307,11 +307,7 @@ The easiest login option is to use token authentication.  (Basic auth is configu
 
 For `token` authentication: copy the token from http://{host-node-0}:7999/admin-token.txt (username `admin`, password `{password-adminPass}`) (this file is located on `node-0` in `/local/setup/admin-token.txt`).
 
-Ingress IP1 = `{password-ingressIp}`
-Ingress IP2 = `{ingressIp}`
-
-Ingress IP3 = `{password-ingressIpDynamic}`
-Ingress IP4 = `{ingressIpDynamic}`
+Ingress IP = `{IP-address}`
 
 (To provide secure dashboard access, we run a `kube-proxy` instance that listens on localhost:8888 and accepts all incoming hosts, and export that via nginx proxy listening on `{host-node-0}:8080` (but note that the proxy is restricted by path to the dashboard path only, so you cannot use this more generally).  We also create an `admin` `serviceaccount` in the `default` namespace, and that is the serviceaccount associated with the token auth option mentioned just above.)
 
@@ -473,10 +469,22 @@ apool = IG.AddressPool("node-0",params.publicIPCount)
 rspec.addResource(apool)
 
 
-ingressIpDynamic = os.getenv("INGRESS_IP")
-rspec.addResource(ingressIpDynamic)
+class IngressIPResource(RSpec.Resource):
+    def __init__(self, ip_address):
+        self.ip_address = ip_address
 
-ingressIp = "testJorrit"
-rspec.addResource(ingressIp)
+    def _write(self, root):
+        ns = "{http://www.protogeni.net/resources/rspec/ext/emulab/1}"
+        el = ET.SubElement(root, "%sIP" % (ns,), attrib={'address': self.ip_address})
+
+# Suppose you retrieved the IP address like this:
+ingress_ip_address = os.getenv("INGRESS_IP", "default_value")  # Replace 'default_value' with an actual default or handle None
+
+# Now create the custom resource
+ingress_ip_resource = IngressIPResource(ingress_ip_address)
+
+# And add it to the RSPEC
+rspec.addResource(ingress_ip_resource)
+
 
 pc.printRequestRSpec(rspec)
