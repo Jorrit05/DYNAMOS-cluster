@@ -307,11 +307,22 @@ The easiest login option is to use token authentication.  (Basic auth is configu
 
 For `token` authentication: copy the token from http://{host-node-0}:7999/admin-token.txt (username `admin`, password `{password-adminPass}`) (this file is located on `node-0` in `/local/setup/admin-token.txt`).
 
-You can get the ingressIP from http://{host-node-0}:7999/ingress-ip.txt
 
 (To provide secure dashboard access, we run a `kube-proxy` instance that listens on localhost:8888 and accepts all incoming hosts, and export that via nginx proxy listening on `{host-node-0}:8080` (but note that the proxy is restricted by path to the dashboard path only, so you cannot use this more generally).  We also create an `admin` `serviceaccount` in the `default` namespace, and that is the serviceaccount associated with the token auth option mentioned just above.)
 
 Kubernetes credentials are in `~/.kube/config`, or in `/root/.kube/config`, as you'd expect.
+
+## DYNAMOS
+
+You can get the ingress controller IP address from http://{host-node-0}:7999/ingress-ip.txt (username `admin`, password `{password-adminPass}`).
+
+Add the IP of the ingress controller to you localhost file with the following URLs:
+
+- <IP> orchestrator.orchestrator.svc.cluster.local
+- <IP> uva.uva.svc.cluster.local
+- <IP> surf.surf.svc.cluster.local
+
+This makes it possible to interact with the services running in the cluster. More details can be found in the thesis, downloadable from [here](https://delaat.net/sc/sc23/index.html).
 
 ## Changing your Kubernetes deployment
 
