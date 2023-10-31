@@ -472,10 +472,13 @@ rspec.addResource(apool)
 class IngressIPResource(RSpec.Resource):
     def __init__(self, ip_address):
         self.ip_address = ip_address
+        # Define the namespaces attribute
+        self.namespaces = ["http://www.protogeni.net/resources/rspec/ext/emulab/1"]
 
     def _write(self, root):
         ns = "{http://www.protogeni.net/resources/rspec/ext/emulab/1}"
         el = ET.SubElement(root, "%sIP" % (ns,), attrib={'address': self.ip_address})
+
 
 # Suppose you retrieved the IP address like this:
 ingress_ip_address = os.getenv("INGRESS_IP", "default_value")  # Replace 'default_value' with an actual default or handle None
