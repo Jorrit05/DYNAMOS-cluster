@@ -89,11 +89,19 @@ helm upgrade -i -f "${agents_chart}/values.yaml" agents ${agents_chart}
 echo "Installing thirdparty layer..."
 helm upgrade -i -f "${ttp_chart}/values.yaml" surf ${ttp_chart}
 
-echo "Finished setting up DYNAMOS"
+while true; do
+    INGRESS_IP=$(kubectl get ingress orchestrator-ingress -n orchestrator -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+    if [[ -n "$INGRESS_IP" ]]; then
+        break
+    fi
+    echo "Waiting for ingress IP..."
+    sleep 5
+done
 
-export INGRESS_IP=$(k get ingress  orchestrator-ingress -n orchestrator -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
-echo "Ingress IP: $INGRESS_IP"
-touch "/local/setup/ingress-ip.txt"
-echo $INGRESS_IP > "/local/setup/ingress-ip.txt"
+echo "Found ingress IP: $INGRESS_IP"
+touch "/local/setup/ingress-ip.txt" && echo $INGRESS_IP > "/local/setup/ingress-ip.txt"
+export INGRESS_IP=$INGRESS_IP
+
+echo "Finished setting up DYNAMOS"
 
 exit 0
