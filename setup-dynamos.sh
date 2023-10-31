@@ -81,7 +81,7 @@ echo "Installing DYNAMOS core..."
 helm upgrade -i -f ${core_chart}/values.yaml core ${core_chart}  --set hostPath=${HOME}
 
 # Install orchestrator layer
-helm upgrade -i -f "${orchestrator_chart}/values.yaml" orchestrator ${orchestrator_chart} --set hostPath=${HOME}
+helm upgrade -i -f "${orchestrator_chart}/values.yaml" orchestrator ${orchestrator_chart}
 
 echo "Installing agents layer"
 helm upgrade -i -f "${agents_chart}/values.yaml" agents ${agents_chart}
@@ -90,5 +90,8 @@ echo "Installing thirdparty layer..."
 helm upgrade -i -f "${ttp_chart}/values.yaml" surf ${ttp_chart}
 
 echo "Finished setting up DYNAMOS"
+
+export INGRESS_IP=$(k get ingress  orchestrator-ingress -n orchestrator -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo "Ingress IP: $INGRESS_IP"
 
 exit 0

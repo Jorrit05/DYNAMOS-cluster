@@ -48,11 +48,11 @@ pc.defineParameter(
     portal.ParameterType.INTEGER,0,
     [(0,"Any"),(1000000,"1Gb/s"),(10000000,"10Gb/s"),(25000000,"25Gb/s"),(40000000,"40Gb/s"),(100000000,"100Gb/s")],
     longDescription="A specific link speed to use for each link/LAN.  All experiment network interfaces will request this speed.")
-pc.defineParameter(
-    "buildDynamos","Build DYNAMOS containers",
-    portal.ParameterType.BOOLEAN,False,
-    advanced=True,
-    longDescription="If set to true, DYNAMOS will build the containers locally.")
+# pc.defineParameter(
+#     "buildDynamos","Build DYNAMOS containers",
+#     portal.ParameterType.BOOLEAN,False,
+#     advanced=True,
+#     longDescription="If set to true, DYNAMOS will build the containers locally.")
 pc.defineParameter(
     "diskImage","Disk Image",
     portal.ParameterType.STRING,
@@ -307,6 +307,12 @@ The easiest login option is to use token authentication.  (Basic auth is configu
 
 For `token` authentication: copy the token from http://{host-node-0}:7999/admin-token.txt (username `admin`, password `{password-adminPass}`) (this file is located on `node-0` in `/local/setup/admin-token.txt`).
 
+Ingress IP1 = `{password-ingressIp}`
+Ingress IP2 = `{ingressIp}`
+
+Ingress IP3 = `{password-ingressIpDynamic}`
+Ingress IP4 = `{ingressIpDynamic}`
+
 (To provide secure dashboard access, we run a `kube-proxy` instance that listens on localhost:8888 and accepts all incoming hosts, and export that via nginx proxy listening on `{host-node-0}:8080` (but note that the proxy is restricted by path to the dashboard path only, so you cannot use this more generally).  We also create an `admin` `serviceaccount` in the `default` namespace, and that is the serviceaccount associated with the token auth option mentioned just above.)
 
 Kubernetes credentials are in `~/.kube/config`, or in `/root/.kube/config`, as you'd expect.
@@ -465,5 +471,12 @@ rspec.addResource(adminPassResource)
 #
 apool = IG.AddressPool("node-0",params.publicIPCount)
 rspec.addResource(apool)
+
+
+ingressIpDynamic = os.getenv("")
+rspec.addResource(ingressIpDynamic)
+
+ingressIp = "testJorrit"
+rspec.addResource(ingressIp)
 
 pc.printRequestRSpec(rspec)
