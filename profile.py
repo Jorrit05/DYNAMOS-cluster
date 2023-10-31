@@ -473,7 +473,7 @@ apool = IG.AddressPool("node-0",params.publicIPCount)
 rspec.addResource(apool)
 
 
-ingressIpDynamic = os.getenv("")
+ingressIpDynamic = os.getenv("INGRESS_IP")
 rspec.addResource(ingressIpDynamic)
 
 ingressIp = "testJorrit"
