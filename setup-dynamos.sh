@@ -93,5 +93,7 @@ echo "Finished setting up DYNAMOS"
 
 export INGRESS_IP=$(k get ingress  orchestrator-ingress -n orchestrator -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
 echo "Ingress IP: $INGRESS_IP"
+touch "/local/setup/ingress-ip.txt"
+echo $INGRESS_IP > "/local/setup/ingress-ip.txt"
 
 exit 0
