@@ -346,7 +346,7 @@ To change the Ansible and playbook configuration, you can start reading Kubespra
 # Customizable area for forks.
 #
 tourDescription = \
-  "This profile creates a Kubernetes cluster with [Kubespray]().  When you click the Instantiate button, you'll be presented with a list of parameters that you can change to control what your Kubernetes cluster will look like; read the parameter documentation on that page (or in the Instructions)."
+  "This profile creates a Kubernetes cluster with [Kubespray](https://github.com/kubernetes-sigs/kubespray) and installs the research project [DYNAMOS](https://delaat.net/sc/sc23/index.html). This project will be expanded to allow for easy experimentation with DYNAMOS."
 
 tourInstructions = kubeInstructions
 
