@@ -80,11 +80,16 @@ helm install -f "${core_chart}/ingress-values.yaml" nginx oci://ghcr.io/nginxinc
 echo "Installing DYNAMOS core..."
 helm upgrade -i -f ${core_chart}/values.yaml core ${core_chart}  --set hostPath=${HOME}
 
+sleep 3
 # Install orchestrator layer
 helm upgrade -i -f "${orchestrator_chart}/values.yaml" orchestrator ${orchestrator_chart}
 
+sleep 1
+
 echo "Installing agents layer"
 helm upgrade -i -f "${agents_chart}/values.yaml" agents ${agents_chart}
+
+sleep 1
 
 echo "Installing thirdparty layer..."
 helm upgrade -i -f "${ttp_chart}/values.yaml" surf ${ttp_chart}
