@@ -35,7 +35,7 @@ k8s_service_files="${config_path}/k8s_service_files"
 etcd_launch_files="${config_path}/etcd_launch_files"
 
 echo "Generating RabbitMQ password..."
-rabbit_pw=$(openssl rand -base64 12)
+rabbit_pw=$(openssl rand -hex 16)
 rabbit_definitions_file=${k8s_service_files}/definitions.json
 # Hash password
 hashed_pw=$($SUDO docker run --rm  rabbitmq:3-management rabbitmqctl hash_password $rabbit_pw)
