@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Grab our libs
-. "`dirname $0`/setup-lib.sh"
+. "$(dirname $0)/setup-lib.sh"
 
 set -e
 
@@ -16,7 +16,6 @@ if ! git clone https://github.com/Jorrit05/DYNAMOS.git; then
     exit 1
 fi
 
-
 echo "Setting up paths..."
 dynamos_path="${HOME}/DYNAMOS"
 
@@ -28,6 +27,7 @@ namespace_chart="${charts_path}/namespaces"
 orchestrator_chart="${charts_path}/orchestrator"
 agents_chart="${charts_path}/agents"
 ttp_chart="${charts_path}/thirdparty"
+api_gw_chart="${charts_path}/api-gateway"
 
 # Config
 config_path="${dynamos_path}/configuration"
@@ -38,7 +38,7 @@ echo "Generating RabbitMQ password..."
 rabbit_pw=$(openssl rand -hex 16)
 rabbit_definitions_file=${k8s_service_files}/definitions.json
 # Hash password
-hashed_pw=$($SUDO docker run --rm  rabbitmq:3-management rabbitmqctl hash_password $rabbit_pw)
+hashed_pw=$($SUDO docker run --rm rabbitmq:3-management rabbitmqctl hash_password $rabbit_pw)
 actual_hash=$(echo "$hashed_pw" | cut -d $'\n' -f2)
 
 echo "Replacing tokens..."
@@ -66,7 +66,6 @@ echo "Preparing PVC"
     ./fill-rabbit-pvc.sh
 }
 
-
 #Install prometheus
 echo "Installing Prometheus..."
 
@@ -78,7 +77,7 @@ echo "Installing NGINX..."
 helm install -f "${core_chart}/ingress-values.yaml" nginx oci://ghcr.io/nginxinc/charts/nginx-ingress -n ingress --version 0.18.0
 
 echo "Installing DYNAMOS core..."
-helm upgrade -i -f ${core_chart}/values.yaml core ${core_chart}  --set hostPath=${HOME}
+helm upgrade -i -f ${core_chart}/values.yaml core ${core_chart} --set hostPath=${HOME}
 
 sleep 3
 # Install orchestrator layer
@@ -94,6 +93,11 @@ sleep 1
 echo "Installing thirdparty layer..."
 helm upgrade -i -f "${ttp_chart}/values.yaml" surf ${ttp_chart}
 
+sleep 1
+
+echo "Installing api gateway"
+helm upgrade -i -f "${api_gw_chart}/values.yaml" surf ${api_gw_chart}
+
 while true; do
     INGRESS_IP=$(kubectl get ingress orchestrator-ingress -n orchestrator -o=jsonpath='{.status.loadBalancer.ingress[0].ip}')
     if [[ -n "$INGRESS_IP" ]]; then
@@ -104,7 +108,7 @@ while true; do
 done
 
 echo "Found ingress IP: $INGRESS_IP"
-touch "/local/setup/ingress-ip.txt" && echo $INGRESS_IP > "/local/setup/ingress-ip.txt"
+touch "/local/setup/ingress-ip.txt" && echo $INGRESS_IP >"/local/setup/ingress-ip.txt"
 export INGRESS_IP=$INGRESS_IP
 
 echo "Finished setting up DYNAMOS"
