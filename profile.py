@@ -316,13 +316,12 @@ Kubernetes credentials are in `~/.kube/config`, or in `/root/.kube/config`, as y
 
 You can get the ingress controller IP address from http://{host-node-0}:7999/ingress-ip.txt (username `admin`, password `{password-adminPass}`).
 
-Add the IP of the ingress controller to you localhost file with the following URLs:
+Add the IP of the ingress controller to you localhost file with the following URL:
 
-- <IP> orchestrator.orchestrator.svc.cluster.local
-- <IP> uva.uva.svc.cluster.local
-- <IP> surf.surf.svc.cluster.local
+- <IP> api-gateway.api-gateway.svc.cluster.local
 
-This makes it possible to interact with the services running in the cluster. More details can be found in the thesis, downloadable from [here](https://delaat.net/sc/sc23/index.html).
+
+This makes it possible to interact with the services running in the cluster. More details can be found in the thesis, downloadable from [here](https://github.com/Jorrit05/DYNAMOS/tree/main/docs/papers).
 
 ## Changing your Kubernetes deployment
 
