@@ -88,9 +88,11 @@ done
 echo "Install brew and k9s"
 
 sudo curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o install_brew.sh
-chmod +x install_brew.sh
+sudo chmod +x install_brew.sh
 ./install_brew.sh
 
-test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
-test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.bashrc
+(
+  echo
+  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+) >>/users/$USER/.bashrc
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
