@@ -89,7 +89,7 @@ echo "Install brew"
 
 sudo curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o install_brew.sh
 sudo chmod +x install_brew.sh
-./install_brew.sh
+NONINTERACTIVE=1 ./install_brew.sh
 
 (
   echo
