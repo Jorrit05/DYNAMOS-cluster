@@ -1,7 +1,5 @@
 #!/bin/bash
 
-DYNAMOS_ROOT="${HOME}/DYNAMOS"
-
 # Define functions as variables to easily manage them
 deploy_ingress_func='deploy_ingress() {
   coreChart="${DYNAMOS_ROOT}/charts/core"
@@ -76,6 +74,8 @@ $deploy_surf_func
 $delete_jobs_func
 $uninstall_all_func
 $deploy_all_func"
+
+echo "DYNAMOS_ROOT="${HOME}/DYNAMOS"" >>~/.bashrc
 
 # Check if function is already in .bashrc, if not, append it
 for func in "$deploy_ingress_func" "$deploy_api_gateway_func" "$deploy_core_func" "$deploy_prometheus_func" "$deploy_orchestrator_func" "$deploy_agent_func" "$restart_agent_func" "$deploy_surf_func" "$delete_jobs_func" "$uninstall_all_func" "$deploy_all_func"; do
