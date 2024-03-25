@@ -84,3 +84,13 @@ for func in "$deploy_ingress_func" "$deploy_api_gateway_func" "$deploy_core_func
     echo "$func" >>~/.bashrc
   fi
 done
+
+echo "Install brew and k9s"
+
+sudo curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o install_brew.sh
+chmod +x install_brew.sh
+./install_brew.sh
+
+test -d ~/.linuxbrew && eval "$(~/.linuxbrew/bin/brew shellenv)"
+test -d /home/linuxbrew/.linuxbrew && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+echo "eval \"\$($(brew --prefix)/bin/brew shellenv)\"" >>~/.bashrc
