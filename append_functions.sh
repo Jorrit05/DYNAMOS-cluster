@@ -85,7 +85,7 @@ for func in "$deploy_ingress_func" "$deploy_api_gateway_func" "$deploy_core_func
   fi
 done
 
-echo "Install brew and k9s"
+echo "Install brew"
 
 sudo curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh -o install_brew.sh
 sudo chmod +x install_brew.sh
@@ -96,3 +96,7 @@ sudo chmod +x install_brew.sh
   echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
 ) >>/users/$USER/.bashrc
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+echo "Install K9S"
+source ~/.bashrc
+brew install derailed/k9s/k9s
